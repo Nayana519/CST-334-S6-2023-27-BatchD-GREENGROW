@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Profile - GreenGrow</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --gd: #1a3a0a;
+        --gm: #2d6a0f;
+        --gb: #4da528;
+        --gl: #a8d870;
+        --gp: #e8f5d0;
+        --cr: #f7f9f0;
+        --td: #111a08;
+        --tm: #5a6b4a;
+        --sh: 0 20px 60px rgba(26, 58, 10, 0.15);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--cr);
+        color: var(--td);
+        min-height: 100vh;
+      }
+
+      /* NAVBAR */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 40px;
+        background: rgba(247, 249, 240, 0.97);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(77, 165, 40, 0.15);
+      }
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Playfair Display", serif;
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: var(--gd);
+        text-decoration: none;
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      .nav-btn {
+        border: none;
+        background: transparent;
+        color: var(--gb);
+        padding: 9px 22px;
+        border-radius: 8px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .nav-btn:hover {
+        color: var(--gd);
+      }
+      .btn-logout {
+        background: var(--gb);
+        color: white;
+        padding: 10px 24px;
+      }
+      .btn-logout:hover {
+        background: var(--gm);
+      }
+
+      /* PAGE */
+      .page {
+        padding: 100px 20px 60px;
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      /* HEADER */
+      .header {
+        margin-bottom: 40px;
+      }
+      .header h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.2rem;
+        font-weight: 900;
+        color: var(--gd);
+        margin-bottom: 8px;
+      }
+
+      /* TABS */
+      .tabs {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 30px;
+        border-bottom: 2px solid rgba(77, 165, 40, 0.15);
+      }
+      .tab-btn {
+        background: none;
+        border: none;
+        padding: 12px 0;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--tm);
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        transition: color 0.2s;
+        border-bottom: 3px solid transparent;
+        margin-bottom: -2px;
+      }
+      .tab-btn.active {
+        color: var(--gb);
+        border-bottom-color: var(--gb);
+      }
+
+      /* CARD */
+      .card {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: var(--sh);
+        border: 1px solid rgba(77, 165, 40, 0.12);
+        margin-bottom: 30px;
+      }
+
+      /* FORM FIELDS */
+      .form-group {
+        margin-bottom: 24px;
+      }
+      .form-group label {
+        display: block;
+        font-size: 0.84rem;
+        font-weight: 600;
+        color: var(--gd);
+        margin-bottom: 8px;
+      }
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1.5px solid rgba(77, 165, 40, 0.25);
+        border-radius: 10px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.95rem;
+        color: var(--td);
+        background: var(--cr);
+        outline: none;
+        transition: border-color 0.2s;
+        resize: vertical;
+      }
+      .form-group input:focus,
+      .form-group textarea:focus {
+        border-color: var(--gb);
+        box-shadow: 0 0 0 3px rgba(77, 165, 40, 0.12);
+      }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      /* BUTTONS */
+      .btn-primary {
+        background: var(--gd);
+        color: white;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        transition: all 0.25s;
+        box-shadow: 0 6px 20px rgba(26, 58, 10, 0.3);
+      }
+      .btn-primary:hover {
+        background: var(--gm);
+        transform: translateY(-2px);
+      }
+      .btn-secondary {
+        background: transparent;
+        border: 1.5px solid var(--gb);
+        color: var(--gb);
+        padding: 12px 28px;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        transition: all 0.2s;
+      }
+      .btn-secondary:hover {
+        background: var(--gb);
+        color: white;
+      }
+      .btn-group {
+        display: flex;
+        gap: 12px;
+        margin-top: 28px;
+      }
+
+      /* INFO */
+      .info-box {
+        background: var(--gp);
+        border-radius: 12px;
+        padding: 16px 20px;
+        border: 1px solid rgba(77, 165, 40, 0.2);
+        margin-bottom: 20px;
+      }
+      .info-box p {
+        font-size: 0.9rem;
+        color: var(--gm);
+        line-height: 1.6;
+      }
+
+      /* HISTORY TABLE */
+      .table-responsive {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+      }
+      th {
+        background: var(--gp);
+        color: var(--gd);
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+      }
+      td {
+        padding: 12px;
+        border-bottom: 1px solid rgba(77, 165, 40, 0.15);
+      }
+      tr:hover {
+        background: var(--cr);
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 12px 20px;
+        }
+        .page {
+          padding: 100px 16px 40px;
+        }
+        .card {
+          padding: 24px;
+          margin-bottom: 20px;
+        }
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+        .btn-group {
+          flex-direction: column;
+        }
+        .tabs {
+          gap: 12px;
+        }
+        table {
+          font-size: 0.8rem;
+        }
+        td,
+        th {
+          padding: 8px;
+        }
+        .header h1 {
+          font-size: 1.8rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .navbar {
+          padding: 10px 16px;
+        }
+        .nav-logo {
+          font-size: 1.1rem;
+        }
+        .page {
+          padding: 90px 12px 20px;
+        }
+        .card {
+          padding: 16px;
+        }
+        .header h1 {
+          font-size: 1.4rem;
+        }
+        .form-group input,
+        .form-group textarea {
+          font-size: 16px;
+        }
+        .tabs {
+          gap: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <a class="nav-logo" href="/">🌿 GREENGROW</a>
+      <div class="nav-right">
+        <span style="color: var(--tm); font-size: 0.9rem"
+          >{{ user['name'] }}</span
+        >
+        <a href="/predict-page" class="nav-btn">Predict</a>
+        <a href="/logout" class="nav-btn btn-logout">Logout</a>
+      </div>
+    </nav>
+
+    <div class="page">
+      <div class="container">
+        <div class="header">
+          <h1>👤 My Profile</h1>
+        </div>
+
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('profile')">
+            Profile Info
+          </button>
+          <button class="tab-btn" onclick="switchTab('history')">
+            Prediction History
+          </button>
+        </div>
+
+        <!-- PROFILE TAB -->
+        <div id="profile" class="tab-content">
+          <div class="card">
+            <div class="info-box">
+              <p><strong>📧 Email:</strong> {{ user['email'] }}</p>
+            </div>
+
+            <!-- AVATAR SECTION -->
+            <div style="margin-bottom: 32px; text-align: center">
+              <h3 style="color: var(--gd); margin-bottom: 16px; font-size: 1.1rem">Avatar</h3>
+              <div style="
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--gb), var(--gd));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 16px;
+                box-shadow: 0 6px 20px rgba(26, 58, 10, 0.2);
+                overflow: hidden;
+              ">
+                {% if user.get('avatar_filename') %}
+                  <img src="/static/uploads/avatars/{{ user['avatar_filename'] }}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                {% else %}
+                  <span style="font-size: 3rem">{{ user['name'].split()[0][0] if user['name'] else 'U' }}</span>
+                {% endif %}
+              </div>
+
+              <form action="/profile/upload-avatar" method="POST" enctype="multipart/form-data" style="margin-top: 16px">
+                <div style="margin-bottom: 12px">
+                  <input type="file" name="avatar" id="avatar" accept="image/*" required style="
+                    display: none;
+                  ">
+                  <label for="avatar" style="
+                    background: var(--gb);
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-weight: 600;
+                    display: inline-block;
+                    transition: background 0.2s;
+                  " onmouseover="this.style.background='var(--gm)'" onmouseout="this.style.background='var(--gb)'">
+                    📸 Choose Photo
+                  </label>
+                </div>
+                <p style="font-size: 0.78rem; color: var(--tm); margin-bottom: 12px">
+                  JPG, PNG or GIF (Max 5MB)
+                </p>
+                <button type="submit" class="btn-secondary" style="display: none" id="uploadBtn">
+                  Upload
+                </button>
+              </form>
+            </div>
+
+            <form action="/profile/update" method="POST">
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value="{{ user['name'] or '' }}"
+                  required
+                />
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="location">Location/City</label>
+                  <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    value="{{ user['location'] or '' }}"
+                    placeholder="e.g., Mumbai"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="farm_size">Farm Size (acres)</label>
+                  <input
+                    type="text"
+                    id="farm_size"
+                    name="farm_size"
+                    value="{{ user['farm_size'] or '' }}"
+                    placeholder="e.g., 5"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="crops">Crops You Grow</label>
+                <input
+                  type="text"
+                  id="crops"
+                  name="crops"
+                  value="{{ user['crops'] or '' }}"
+                  placeholder="e.g., Rice, Wheat, Maize"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="soil_type">Main Soil Type</label>
+                <input
+                  type="text"
+                  id="soil_type"
+                  name="soil_type"
+                  value="{{ user['soil_type'] or '' }}"
+                  placeholder="e.g., Loamy, Sandy, Clay"
+                />
+              </div>
+
+              <div class="btn-group">
+                <button type="submit" class="btn-primary">
+                  💾 Save Changes
+                </button>
+                <a
+                  href="/predict-page"
+                  class="btn-secondary"
+                  style="
+                    padding: 14px 32px;
+                    text-decoration: none;
+                    text-align: center;
+                  "
+                  >Make Prediction</a
+                >
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- HISTORY TAB -->
+        <div id="history" class="tab-content" style="display: none">
+          <div class="card">
+            <h2 style="margin-bottom: 20px; color: var(--gd)">
+              Last 10 Predictions
+            </h2>
+            {% if predictions %}
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Crop</th>
+                    <th>Fertilizer</th>
+                    <th>NPK</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for pred in predictions %}
+                  <tr>
+                    <td>{{ pred['created_at'][:10] }}</td>
+                    <td>{{ pred['crop'] }}</td>
+                    <td><strong>{{ pred['fertilizer_result'] }}</strong></td>
+                    <td>
+                      N:{{ pred['nitrogen']|int }} P:{{ pred['phosphorus']|int
+                      }} K:{{ pred['potassium']|int }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% else %}
+            <p style="color: var(--tm); text-align: center; padding: 40px 20px">
+              No predictions yet.
+              <a
+                href="/predict-page"
+                style="
+                  color: var(--gb);
+                  text-decoration: none;
+                  font-weight: 600;
+                "
+                >Make your first prediction!</a
+              >
+            </p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function switchTab(tab) {
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((el) => (el.style.display = "none"));
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((el) => el.classList.remove("active"));
+        document.getElementById(tab).style.display = "block";
+        event.target.classList.add("active");
+      }
+
+      // Handle avatar file input change
+      document.getElementById('avatar').addEventListener('change', function(e) {
+        if (this.files && this.files[0]) {
+          const file = this.files[0];
+          const maxSize = 5 * 1024 * 1024; // 5MB
+
+          if (file.size > maxSize) {
+            alert('File size must be less than 5MB');
+            this.value = '';
+            return;
+          }
+
+          // Show submit button and file name
+          document.getElementById('uploadBtn').style.display = 'inline-block';
+
+          // Show preview
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const avatar = document.querySelector('[style*="overflow: hidden"]');
+            if (avatar) {
+              const img = document.createElement('img');
+              img.src = e.target.result;
+              img.style.width = '100%';
+              img.style.height = '100%';
+              img.style.objectFit = 'cover';
+              avatar.innerHTML = '';
+              avatar.appendChild(img);
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    </script>
+  </body>
+</html>

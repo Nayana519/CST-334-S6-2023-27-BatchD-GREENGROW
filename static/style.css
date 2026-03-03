@@ -1,0 +1,112 @@
+/* ===== GLOBAL ===== */
+:root {
+  --green-dark: #1a3a0a;
+  --green-mid: #2d6a0f;
+  --green-bright: #4da528;
+  --green-light: #a8d870;
+  --green-pale: #e8f5d0;
+  --cream: #f7f9f0;
+  --text-dark: #111a08;
+  --text-muted: #5a6b4a;
+  --white: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 60px;
+  background: white;
+  border-bottom: 1px solid #ddd;
+}
+
+.navbar a {
+  text-decoration: none;
+  margin: 0 15px;
+  color: var(--text-dark);
+  font-weight: bold;
+}
+
+.btn {
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-green {
+  background: var(--green-bright);
+  color: white;
+}
+
+.btn-outline {
+  border: 1px solid var(--green-bright);
+  color: var(--green-bright);
+  background: transparent;
+}
+
+/* ===== HERO ===== */
+.hero {
+  padding: 120px 80px;
+  background: linear-gradient(135deg, #e8f5d0, #c8e89a);
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 18px;
+  color: var(--text-muted);
+  margin-bottom: 30px;
+}
+
+/* ===== FORM ===== */
+.form-container {
+  max-width: 450px;
+  margin: 120px auto;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+}
+
+.form-container h2 {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* ===== RESULT ===== */
+.result-box {
+  max-width: 800px;
+  margin: 120px auto;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+  text-align: center;
+}

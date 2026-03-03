@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - GreenGrow</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --gd: #1a3a0a;
+        --gm: #2d6a0f;
+        --gb: #4da528;
+        --gl: #a8d870;
+        --gp: #e8f5d0;
+        --cr: #f7f9f0;
+        --td: #111a08;
+        --tm: #5a6b4a;
+        --sh: 0 20px 60px rgba(26, 58, 10, 0.15);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: linear-gradient(
+          135deg,
+          #e8f5d0 0%,
+          #c8e89a 50%,
+          #a8d870 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .card {
+        background: white;
+        border-radius: 28px;
+        padding: 52px 48px;
+        width: 100%;
+        max-width: 440px;
+        box-shadow: var(--sh);
+      }
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--gd);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 36px;
+      }
+      h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--gd);
+        margin-bottom: 8px;
+      }
+      .sub {
+        color: var(--tm);
+        font-size: 0.92rem;
+        margin-bottom: 32px;
+        line-height: 1.5;
+      }
+      .field {
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        font-size: 0.84rem;
+        font-weight: 600;
+        color: var(--gd);
+        margin-bottom: 7px;
+      }
+      input {
+        width: 100%;
+        padding: 13px 16px;
+        border: 1.5px solid rgba(77, 165, 40, 0.25);
+        border-radius: 10px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.95rem;
+        color: var(--td);
+        background: var(--cr);
+        outline: none;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+      input:focus {
+        border-color: var(--gb);
+        box-shadow: 0 0 0 3px rgba(77, 165, 40, 0.12);
+      }
+      .btn {
+        width: 100%;
+        background: var(--gd);
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        transition: all 0.25s;
+        box-shadow: 0 6px 20px rgba(26, 58, 10, 0.3);
+        margin-top: 8px;
+      }
+      .btn:hover {
+        background: var(--gm);
+        transform: translateY(-2px);
+      }
+      .err {
+        background: #fdecea;
+        border: 1px solid #f5c6cb;
+        color: #c0392b;
+        border-radius: 8px;
+        padding: 11px 15px;
+        font-size: 0.85rem;
+        margin-bottom: 16px;
+      }
+      .link-row {
+        text-align: center;
+        margin-top: 22px;
+        font-size: 0.88rem;
+        color: var(--tm);
+      }
+      .link-row a {
+        color: var(--gb);
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .link-row a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 480px) {
+        .card {
+          padding: 36px 28px;
+        }
+        h2 {
+          font-size: 1.5rem;
+        }
+        .logo {
+          font-size: 1.2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <a class="logo" href="/">🌿 GREENGROW</a>
+      <h2>Welcome back</h2>
+      <p class="sub">
+        Sign in to your account to continue your farming journey.
+      </p>
+
+      {% if error %}
+      <div class="err">⚠️ {{ error }}</div>
+      {% endif %}
+
+      <form method="POST">
+        <div class="field">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="farmer@example.com"
+            required
+          />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+        <button type="submit" class="btn">Login →</button>
+      </form>
+
+      <div class="link-row">
+        Don't have an account? <a href="/register">Create one free</a>
+      </div>
+      <div class="link-row" style="margin-top: 10px">
+        <a href="/">← Back to Home</a>
+      </div>
+    </div>
+  </body>
+</html>

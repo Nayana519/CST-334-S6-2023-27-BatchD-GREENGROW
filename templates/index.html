@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Predict - GreenGrow</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --gd: #1a3a0a;
+        --gm: #2d6a0f;
+        --gb: #4da528;
+        --gl: #a8d870;
+        --gp: #e8f5d0;
+        --cr: #f7f9f0;
+        --td: #111a08;
+        --tm: #5a6b4a;
+        --sh: 0 20px 60px rgba(26, 58, 10, 0.15);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--cr);
+        color: var(--td);
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        background-image: url("/static/backg.gif");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        background-size: cover;
+      }
+
+      /* NAVBAR */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 40px;
+        background: rgba(247, 249, 240, 0.97);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(77, 165, 40, 0.15);
+      }
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Playfair Display", serif;
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: var(--gd);
+        text-decoration: none;
+      }
+      .nav-center {
+        display: flex;
+        gap: 35px;
+      }
+      .nav-center a {
+        text-decoration: none;
+        color: var(--tm);
+        font-size: 0.92rem;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .nav-center a:hover,
+      .nav-center a.active {
+        color: var(--gb);
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      .nav-btn {
+        border: none;
+        background: transparent;
+        color: var(--gb);
+        padding: 9px 22px;
+        border-radius: 8px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .nav-btn:hover {
+        background: var(--gp);
+      }
+      .btn-logout {
+        background: var(--gb);
+        color: white;
+        padding: 10px 24px;
+      }
+      .btn-logout:hover {
+        background: var(--gm);
+      }
+
+      /* PAGE */
+      .page {
+        padding: 120px 20px 60px;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+      }
+      .form-wrap {
+        width: 100%;
+        max-width: 600px;
+      }
+      .form-card {
+        background: white;
+        border-radius: 24px;
+        padding: 48px 44px;
+        box-shadow: var(--sh);
+        border: 1px solid rgba(77, 165, 40, 0.12);
+      }
+      .form-header {
+        margin-bottom: 36px;
+      }
+      .form-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--gp);
+        border-radius: 100px;
+        padding: 6px 16px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: var(--gm);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+      }
+      .form-header h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--gd);
+        line-height: 1.15;
+      }
+      .form-header p {
+        color: var(--tm);
+        font-size: 0.92rem;
+        margin-top: 8px;
+        line-height: 1.6;
+      }
+
+      /* INPUTS */
+      .field-group {
+        margin-bottom: 22px;
+      }
+      .field-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+      label {
+        display: block;
+        font-size: 0.84rem;
+        font-weight: 600;
+        color: var(--gd);
+        margin-bottom: 7px;
+        letter-spacing: 0.02em;
+      }
+      label span {
+        color: var(--tm);
+        font-weight: 400;
+      }
+      input[type="number"],
+      select {
+        width: 100%;
+        padding: 13px 16px;
+        border: 1.5px solid rgba(77, 165, 40, 0.25);
+        border-radius: 10px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.95rem;
+        color: var(--td);
+        background: var(--cr);
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        outline: none;
+      }
+      input[type="number"]:focus,
+      select:focus {
+        border-color: var(--gb);
+        box-shadow: 0 0 0 3px rgba(77, 165, 40, 0.12);
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 13px 16px;
+        border: 1.5px solid rgba(77, 165, 40, 0.25);
+        border-radius: 10px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.95rem;
+        color: var(--td);
+        background: var(--cr);
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        outline: none;
+      }
+      input[type="text"]:focus {
+        border-color: var(--gb);
+        box-shadow: 0 0 0 3px rgba(77, 165, 40, 0.12);
+      }
+
+      /* NPK INDICATOR */
+      .npk-bar {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .npk-segment {
+        flex: 1;
+        height: 6px;
+        border-radius: 3px;
+        background: var(--gp);
+        overflow: hidden;
+      }
+      .npk-fill {
+        height: 100%;
+        border-radius: 3px;
+        background: var(--gb);
+        transition: width 0.4s ease;
+        width: 0%;
+      }
+      .npk-label {
+        font-size: 0.74rem;
+        color: var(--tm);
+        text-align: center;
+        margin-top: 4px;
+      }
+
+      /* DIVIDER */
+      .divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 28px 0;
+      }
+      .divider hr {
+        flex: 1;
+        border: none;
+        border-top: 1px solid rgba(77, 165, 40, 0.15);
+      }
+      .divider span {
+        font-size: 0.78rem;
+        color: var(--tm);
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      /* SUBMIT */
+      .btn-submit {
+        width: 100%;
+        background: var(--gd);
+        color: white;
+        border: none;
+        padding: 16px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        transition: all 0.25s;
+        box-shadow: 0 8px 25px rgba(26, 58, 10, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 8px;
+      }
+      .btn-submit:hover {
+        background: var(--gm);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(26, 58, 10, 0.4);
+      }
+
+      /* TIPS */
+      .tips-box {
+        background: var(--gp);
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-top: 24px;
+        border: 1px solid rgba(77, 165, 40, 0.2);
+      }
+      .tips-box p {
+        font-size: 0.82rem;
+        color: var(--gm);
+        line-height: 1.6;
+      }
+      .tips-box strong {
+        color: var(--gd);
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 1024px) {
+        .navbar {
+          padding: 14px 24px;
+        }
+        .nav-center {
+          gap: 20px;
+        }
+        .page {
+          padding: 110px 16px 40px;
+        }
+        .form-card {
+          padding: 32px 24px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 12px 16px;
+        }
+        .nav-center {
+          display: none;
+        }
+        .nav-logo {
+          font-size: 1.2rem;
+        }
+        .page {
+          padding: 100px 12px 30px;
+        }
+        .form-card {
+          padding: 24px 16px;
+        }
+        .form-header h1 {
+          font-size: 1.5rem;
+        }
+        .field-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .navbar {
+          padding: 10px 12px;
+        }
+        .nav-right {
+          gap: 8px;
+        }
+        .nav-btn {
+          padding: 8px 16px;
+          font-size: 0.75rem;
+        }
+        .page {
+          padding: 90px 8px 20px;
+        }
+        .form-card {
+          padding: 16px 12px;
+        }
+        .form-header h1 {
+          font-size: 1.3rem;
+        }
+        .form-header {
+          margin-bottom: 24px;
+        }
+        .field-group {
+          margin-bottom: 16px;
+        }
+        input[type="number"],
+        select,
+        input[type="text"] {
+          font-size: 16px;
+          padding: 12px 14px;
+        }
+        label {
+          font-size: 0.78rem;
+        }
+        .btn-submit {
+          font-size: 0.9rem;
+          padding: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <a class="nav-logo" href="/">🌿 GREENGROW</a>
+      <div class="nav-center">
+        <a href="/">Home</a>
+        <a href="/predict-page" class="active">Predict</a>
+      </div>
+      <div class="nav-right">
+        <a href="/profile" class="nav-btn">👤 Profile</a>
+        <a href="/logout" class="nav-btn btn-logout">Logout</a>
+      </div>
+    </nav>
+
+    <div class="page">
+      <div class="form-wrap">
+        <div class="form-card">
+          <div class="form-header">
+            <div class="form-badge">🌱 AI Recommendation</div>
+            <h1>Fertilizer<br />Prediction</h1>
+            <p>
+              Enter your soil nutrient levels and crop details to receive a
+              personalized fertilizer recommendation.
+            </p>
+          </div>
+
+          <form action="/predict" method="POST">
+            <div class="divider">
+              <hr />
+              <span>Soil Nutrients (kg/ha)</span>
+              <hr />
+            </div>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label for="N">Nitrogen (N) <span>kg/ha</span></label>
+                <input
+                  type="number"
+                  id="N"
+                  name="Nitrogen"
+                  placeholder="e.g. 90"
+                  min="0"
+                  max="200"
+                  required
+                  oninput="updateBar('n-fill', this.value, 200)"
+                />
+              </div>
+              <div class="field-group">
+                <label for="P">Phosphorus (P) <span>kg/ha</span></label>
+                <input
+                  type="number"
+                  id="P"
+                  name="Phosphorus"
+                  placeholder="e.g. 42"
+                  min="0"
+                  max="200"
+                  required
+                  oninput="updateBar('p-fill', this.value, 200)"
+                />
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="K">Potassium (K) <span>kg/ha</span></label>
+              <input
+                type="number"
+                id="K"
+                name="Potassium"
+                placeholder="e.g. 43"
+                min="0"
+                max="200"
+                required
+                oninput="updateBar('k-fill', this.value, 200)"
+              />
+              <div class="npk-bar">
+                <div class="npk-segment">
+                  <div class="npk-fill" id="n-fill"></div>
+                </div>
+                <div class="npk-segment">
+                  <div class="npk-fill" id="p-fill"></div>
+                </div>
+                <div class="npk-segment">
+                  <div class="npk-fill" id="k-fill"></div>
+                </div>
+              </div>
+              <div class="npk-bar">
+                <div class="npk-label">N</div>
+                <div class="npk-label">P</div>
+                <div class="npk-label">K</div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="pH">Soil pH</label>
+              <input
+                type="number"
+                id="pH"
+                name="pH"
+                placeholder="e.g. 6.5"
+                min="0"
+                max="14"
+                step="0.1"
+                value="6.5"
+              />
+            </div>
+
+            <div class="divider">
+              <hr />
+              <span>Crop & Location</span>
+              <hr />
+            </div>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label for="Soil">Soil Type</label>
+                <select id="Soil" name="Soil" required>
+                  <option value="">Select soil type...</option>
+                  <option value="Sandy">Sandy</option>
+                  <option value="Loamy">Loamy</option>
+                  <option value="Clay">Clay</option>
+                  <option value="Red">Red</option>
+                  <option value="Black">Black</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="Crop">Crop Type</label>
+                <select id="Crop" name="Crop" required>
+                  <option value="">Select crop...</option>
+                  <option value="Rice">🌾 Rice</option>
+                  <option value="Wheat">🌾 Wheat</option>
+                  <option value="Maize">🌽 Maize</option>
+                  <option value="Cotton">🌱 Cotton</option>
+                  <option value="Tobacco">🍃 Tobacco</option>
+                  <option value="Sugarcane">🎋 Sugarcane</option>
+                  <option value="Barley">🌾 Barley</option>
+                  <option value="Oil seeds">🌻 Oil Seeds</option>
+                  <option value="Pulses">🫘 Pulses</option>
+                  <option value="Ground Nuts">🥜 Ground Nuts</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="City">City <span>(for weather)</span></label>
+              <input
+                type="text"
+                id="City"
+                name="City"
+                placeholder="e.g. Mumbai"
+                required
+              />
+            </div>
+
+            <button type="submit" class="btn-submit">
+              🌿 Get Fertilizer Recommendation
+            </button>
+          </form>
+
+          <div class="tips-box">
+            <p>
+              <strong>💡 Tip:</strong> Use a soil test kit for accurate N, P, K
+              values. Typical ranges are 0–200 kg/ha. pH between 6.0–7.0 is
+              ideal for most crops.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function updateBar(id, value, max) {
+        const pct = Math.min(100, (parseFloat(value) / max) * 100) || 0;
+        document.getElementById(id).style.width = pct + "%";
+      }
+    </script>
+  </body>
+</html>
