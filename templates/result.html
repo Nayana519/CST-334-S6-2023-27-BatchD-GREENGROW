@@ -423,6 +423,49 @@
           gap: 8px;
         }
       }
+
+      /* WARNING ALERT */
+      .warning-alert {
+        background: linear-gradient(135deg, #fff3cd, #ffe69c);
+        border-left: 4px solid #ffc107;
+        padding: 16px;
+        margin: 20px 0;
+        border-radius: 6px;
+        display: flex;
+        gap: 12px;
+        font-size: 14px;
+        animation: fadeUp 0.6s ease 0.1s both;
+      }
+      .warning-icon {
+        font-size: 20px;
+        flex-shrink: 0;
+      }
+      .warning-alert p {
+        margin: 0;
+        color: #333;
+        font-size: 0.92rem;
+      }
+      .suggestions {
+        margin-top: 12px;
+      }
+      .suggestions p {
+        margin: 0 0 8px 0;
+        font-weight: 600;
+        color: #333;
+      }
+      .crop-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .crop-tag {
+        background: #ffc107;
+        color: #333;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+      }
     </style>
   </head>
   <body>
@@ -445,6 +488,25 @@
             Based on your soil data and live weather conditions in your area.
           </p>
         </div>
+
+        {% if warning_message %}
+        <div class="warning-alert">
+          <span class="warning-icon">⚠️</span>
+          <div>
+            <p>{{ warning_message }}</p>
+            {% if suggestions %}
+            <div class="suggestions">
+              <p>Try these crops instead:</p>
+              <div class="crop-tags">
+                {% for crop in suggestions %}
+                <span class="crop-tag">{{ crop }}</span>
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
 
         <div class="stats-row">
           <div class="stat-card">
