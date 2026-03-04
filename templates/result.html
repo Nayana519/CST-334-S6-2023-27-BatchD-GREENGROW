@@ -487,11 +487,9 @@
       <div class="result-wrap">
         <div class="hero-card">
           <div class="result-badge">✅ AI Recommendation Ready</div>
-          <h3>Recommended Fertilizer for {{ crop }}</h3>
+          <h3>Recommended Fertilizer for {{ crop }} in {{ location }}</h3>
           <div class="fert-name">{{ fertilizer }}</div>
-          <p>
-            Based on your soil data and live weather conditions in your area.
-          </p>
+          <p>Based on your soil data and live weather conditions.</p>
         </div>
 
         {% if warning_message %}
@@ -539,6 +537,10 @@
         <div class="info-card">
           <h4>📋 Prediction Summary</h4>
           <div class="weather-row">
+            <span class="wlbl">Location</span>
+            <span class="wval">{{ location }}</span>
+          </div>
+          <div class="weather-row">
             <span class="wlbl">Crop Type</span>
             <span class="wval">{{ crop }}</span>
           </div>
@@ -557,8 +559,8 @@
             >
           </div>
           <div class="weather-row">
-            <span class="wlbl">Model Accuracy</span>
-            <span class="wval">95%+ (RandomForest)</span>
+            <span class="wlbl">Model </span>
+            <span class="wval">(RandomForest)</span>
           </div>
         </div>
 

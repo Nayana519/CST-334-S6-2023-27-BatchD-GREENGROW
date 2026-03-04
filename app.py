@@ -154,13 +154,14 @@ def get_weather(city):
         )
         response = requests.get(url, timeout=5)
         data = response.json()
-        if data.get("cod") != 200:
+        if str(data.get("cod")) != "200":
             return 25.0, 50.0, "Weather Unavailable"
         temp = round(data["main"]["temp"], 1)
         humidity = data["main"]["humidity"]
         description = data["weather"][0]["description"].title()
         return temp, humidity, description
-    except Exception:
+    except Exception as e:
+        print(f"[ERROR] Weather API failed: {e}")
         return 25.0, 50.0, "Weather Unavailable"
 
 # -------------------------------
@@ -404,7 +405,8 @@ def predict():
             soil=soil_name,
             temp=temp,
             humidity=humidity,
-            weather=weather_desc
+            weather=weather_desc,
+            location=city
         )
 
     except Exception as e:
