@@ -379,7 +379,7 @@ def upload_avatar():
         print(f"Error uploading avatar: {e}")
         return redirect(url_for('profile'))
 
-@app.route("/predict-page")
+@app.route("/predict_page")
 @login_required
 def predict_page():
     return render_template("index.html")
