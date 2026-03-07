@@ -258,13 +258,16 @@
       }
       /* ORBS */
       .orb {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(60px);
-        opacity: 0.5;
-        animation: fO 8s ease-in-out infinite;
-        pointer-events: none;
-      }
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(60px);
+          opacity: 0.5;
+          animation: fO 8s ease-in-out infinite;
+          animation-delay: 0s;
+          pointer-events: none;
+          will-change: transform;
+          transform: translateZ(0);
+        }
       @keyframes fO {
         0%,
         100% {
@@ -311,9 +314,9 @@
         background: linear-gradient(
           160deg,
           #e8f5d0 0%,
-          #c8e89a 45%,
-          #a8d870 75%,
-          #7bc43f 100%
+          #bce188 45%,
+          #93cc52 75%,
+          #73c332 100%
         );
       }
       .o1 {
@@ -574,16 +577,17 @@
         background: var(--cr);
       }
       .slbl {
-        font-size: 0.81rem;
+        font-family:sans-serif;
+        font-size: 1.41rem;
         font-weight: 700;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.2em;
         text-transform: uppercase;
-        color: var(--gb);
+        color: var(--tm);
         margin-bottom: 12px;
       }
       .stit {
         font-family: "Playfair Display", serif;
-        font-size: 2.5rem;
+        font-size: 3.5rem;
         font-weight: 900;
         color: var(--gd);
         line-height: 1.2;
@@ -641,11 +645,18 @@
       /* HOW */
       .hw {
         padding: 100px 80px;
-        background: linear-gradient(180deg, var(--gd) 0%, var(--gm) 100%);
+       
         color: white;
+         background: linear-gradient(180deg, var(--gd) 0%, var(--gm) 100%);
+        background-image: url("/static/Rectangle.png");
+       
+        background-repeat: no-repeat;
+        background-position: center 65%;
+        background-attachment: fixed;
+        background-size: cover;
       }
       .hw .slbl {
-        color: var(--gl);
+        color: var(--gm);
       }
       .hw .stit {
         color: white;
@@ -656,7 +667,7 @@
         gap: 25px;
       }
       .sk {
-        background: rgba(255, 255, 255, 0.08);
+        background: rgba(3, 72, 17, 0.505);
         backdrop-filter: blur(10px);
         border-radius: 20px;
         padding: 30px 22px;
@@ -689,7 +700,7 @@
       }
       .sd {
         font-size: 0.86rem;
-        opacity: 0.75;
+        opacity: 1.5;
         line-height: 1.6;
       }
       /* CTA */
