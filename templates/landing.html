@@ -703,11 +703,47 @@
         opacity: 1.5;
         line-height: 1.6;
       }
+
+    .about {
+    background: white;
+    padding: 90px 80px;
+    display: flex; /* Use flex to control children */
+    flex-direction: column;
+    align-items: center; /* This forces everything inside to center */
+    text-align: center;
+    background: linear-gradient(135deg, var(--gm), var(--gp),  rgba(96, 164, 82, 0.627));
+    width: 100%;
+    }
+
+.about-text {
+    max-width: 800px;
+    width: 100%; /* Ensures it takes up space up to the max-width */
+    margin: 0 auto 18px auto; /* Centers the block itself */
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: rgb(19, 55, 22);
+}
+
+.contact{
+        padding:100px 80px;
+        background:var(--cr);
+      }
+
+.contact-text{
+        font-size:1rem;
+        color:var(--tm);
+        margin-bottom:20px;
+      }
+
+.contact-info p{
+        font-size:0.95rem;
+        margin-bottom:8px;
+      }
       /* CTA */
       .cta {
         padding: 90px 80px;
         text-align: center;
-        background: linear-gradient(135deg, var(--gp), white, var(--gp));
+        background: linear-gradient(-135deg, rgb(213, 209, 186), white, var(--gp));
       }
       .cta h2 {
         font-family: "Playfair Display", serif;
@@ -816,6 +852,7 @@
           text-align: center;
           padding: 14px 20px;
         }
+
 
         .fs,
         .hw,
@@ -963,6 +1000,7 @@
           font-size: 0.9rem;
           margin-bottom: 20px;
         }
+        
 
         footer {
           padding: 16px 12px;
@@ -1009,6 +1047,8 @@
         <a href="{{ url_for('predict_page') }}">Predict</a>
         <a href="#features">Features</a>
         <a href="#how">How It Works</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
       </div>
       <div class="nav-right">
         <a href="{{ url_for('login') }}" class="btn-ol" id="nLB">Login</a>
@@ -1190,6 +1230,8 @@
       </div>
     </section>
 
+
+
     <section class="cta">
       <h2>Ready to Transform<br />Your Farm?</h2>
       <p>
@@ -1201,6 +1243,40 @@
         <a href="login.html" class="btn-g">I Have an Account</a>
       </div>
     </section>
+
+<section class="about" id="about">
+  <div class="slbl">About Us</div>
+  <div class="stit">Built for Smarter Farming</div>
+
+  <p class="about-text">
+    GreenGrow is an AI-powered fertilizer recommendation system developed to help
+    farmers make smarter agricultural decisions. By combining soil nutrient data,
+    crop type, and real-time weather conditions, our system provides accurate
+    fertilizer guidance to improve yield and reduce environmental impact.
+  </p>
+
+  <p class="about-text">
+    Our goal is to promote sustainable farming practices by minimizing excessive
+    fertilizer usage while ensuring crops receive the right nutrients at the
+    right time.
+  </p>
+
+  <p><strong>Developed by:</strong> S6 Computer Science – Batch D- Group 17</p>
+</section>
+    <section class="contact" id="contact">
+  <div class="slbl">Contact</div>
+  <div class="stit">Get in Touch</div>
+
+  <p class="contact-text">
+    Have questions or suggestions? Reach out to us and we will be happy to help.
+  </p>
+
+  <div class="contact-info">
+    <p>📧 Email: greengrow.support@gmail.com</p>
+    <p>📍 Location: Kerala, India</p>
+    <p>🌐 Project: Smart Fertilizer Recommendation System</p>
+  </div>
+</section>
 
     <footer>
       <div class="logo">🌿 GREENGROW</div>
