@@ -138,11 +138,11 @@ def get_avatar_url(user_id):
 # -------------------------------
 # 2. LOAD MODEL + ENCODERS
 # -------------------------------
-model       = joblib.load("model.pkl")              if os.path.exists("model.pkl")              else None
-le_soil     = joblib.load("soil_encoder.pkl")       if os.path.exists("soil_encoder.pkl")       else None
-le_crop     = joblib.load("crop_encoder.pkl")       if os.path.exists("crop_encoder.pkl")       else None
-le_fert     = joblib.load("fertilizer_encoder.pkl") if os.path.exists("fertilizer_encoder.pkl") else None
-OPTIMAL_NPK = joblib.load("optimal_npk.pkl")        if os.path.exists("optimal_npk.pkl")        else {}
+model       = joblib.load("models/model.pkl")              if os.path.exists("models/model.pkl")              else None
+le_soil     = joblib.load("models/soil_encoder.pkl")       if os.path.exists("models/soil_encoder.pkl")       else None
+le_crop     = joblib.load("models/crop_encoder.pkl")       if os.path.exists("models/crop_encoder.pkl")       else None
+le_fert     = joblib.load("models/fertilizer_encoder.pkl") if os.path.exists("models/fertilizer_encoder.pkl") else None
+OPTIMAL_NPK = joblib.load("models/optimal_npk.pkl")        if os.path.exists("models/optimal_npk.pkl")        else {}
 
 OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_KEY")
 
