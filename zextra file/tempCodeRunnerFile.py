@@ -12,9 +12,9 @@ app = Flask(__name__)
 # -------------------------------
 # 2️⃣ LOAD MODEL AND ENCODERS SAFELY
 # -------------------------------
-model = joblib.load("model.pkl") if os.path.exists("model.pkl") else None
-le_crop = joblib.load("crop_encoder.pkl") if os.path.exists("crop_encoder.pkl") else None
-le_fert = joblib.load("fertilizer_encoder.pkl") if os.path.exists("fertilizer_encoder.pkl") else None
+model = joblib.load("models/model.pkl") if os.path.exists("models/model.pkl") else None
+le_crop = joblib.load("models/crop_encoder.pkl") if os.path.exists("models/crop_encoder.pkl") else None
+le_fert = joblib.load("models/fertilizer_encoder.pkl") if os.path.exists("models/fertilizer_encoder.pkl") else None
 
 # Replace with your real API key
 OPENWEATHER_API_KEY = "YOUR_API_KEY"
