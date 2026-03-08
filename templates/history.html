@@ -81,7 +81,7 @@
       }
 
       .content-wrap {
-        max-width: 1000px;
+        max-width: 1200px;
         margin: 0 auto;
       }
 
@@ -244,6 +244,17 @@
         font-family: monospace;
       }
 
+      .quantity-badge {
+        display: inline-block;
+        background: rgba(77, 165, 40, 0.15);
+        color: var(--gd);
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        border: 1px solid rgba(77, 165, 40, 0.3);
+      }
+
       /* RESPONSIVE */
       @media (max-width: 768px) {
         .navbar {
@@ -302,7 +313,8 @@
         }
 
         .fert-badge,
-        .crop-badge {
+        .crop-badge,
+        .quantity-badge {
           font-size: 0.75rem;
           padding: 4px 8px;
         }
@@ -318,7 +330,7 @@
       <a class="nav-logo" href="/">🌿 GREENGROW</a>
       <div class="nav-right">
         <a href="/profile">👤 Profile</a>
-        <a href="/predict_page">New Prediction</a>
+        <a href="/predict-page">New Prediction</a>
         <a href="/logout">Logout</a>
       </div>
     </nav>
@@ -338,6 +350,7 @@
                 <th>Date</th>
                 <th>Crop</th>
                 <th>Fertilizer</th>
+                <th>Quantity</th>
                 <th>NPK Values</th>
                 <th>pH</th>
               </tr>
@@ -347,8 +360,7 @@
               <tr>
                 <td>
                   <div class="date-text">
-                    {{ pred.created_at.strftime('%Y-%m-%d %H:%M') if
-                    pred.created_at else 'Recently' }}
+                    {{ pred.created_at[:19] if pred.created_at else 'Recently' }}
                   </div>
                 </td>
                 <td>
@@ -360,13 +372,20 @@
                   >
                 </td>
                 <td>
+                  {% if pred.quantity_kg_per_ha %}
+                  <span class="quantity-badge">{{ "%.0f"|format(pred.quantity_kg_per_ha) }} kg/ha</span>
+                  {% else %}
+                  <span class="date-text">N/A</span>
+                  {% endif %}
+                </td>
+                <td>
                   <div class="npk-values">
-                    N: {{ "%.1f"|format(pred.nitrogen) }} | P: {{
-                    "%.1f"|format(pred.phosphorus) }} | K: {{
-                    "%.1f"|format(pred.potassium) }}
+                    N: {{ "%.1f"|format(pred.nitrogen) if pred.nitrogen else 'N/A' }} | P: {{
+                    "%.1f"|format(pred.phosphorus) if pred.phosphorus else 'N/A' }} | K: {{
+                    "%.1f"|format(pred.potassium) if pred.potassium else 'N/A' }}
                   </div>
                 </td>
-                <td>{{ "%.1f"|format(pred.ph) }}</td>
+                <td>{{ "%.1f"|format(pred.ph) if pred.ph else 'N/A' }}</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -380,7 +399,7 @@
             You haven't made any fertilizer predictions yet. Start by making
             your first prediction!
           </p>
-          <a href="/predict_page" class="btn-primary"
+          <a href="/predict-page" class="btn-primary"
             >Make Your First Prediction →</a
           >
         </div>

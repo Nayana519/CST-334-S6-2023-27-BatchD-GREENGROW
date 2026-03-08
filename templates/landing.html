@@ -1041,9 +1041,9 @@
   </head>
   <body>
     <nav class="navbar">
-      <a class="nav-logo" href="{{ url_for('home') }}">🌿 GREENGROW</a>
+      <a class="nav-logo" href="{{ url_for('landing') }}">🌿 GREENGROW</a>
       <div class="nav-center">
-        <a href="{{ url_for('home') }}" class="active">Home</a>
+        <a href="{{ url_for('landing') }}" class="active">Home</a>
         <a href="{{ url_for('predict_page') }}">Predict</a>
         <a href="#features">Features</a>
         <a href="#how">How It Works</a>
@@ -1063,7 +1063,7 @@
               <div class="pe" id="dE">john@farm.com</div>
             </div>
             <a href="{{ url_for('predict_page') }}">🌱 New Prediction</a>
-            <!-- <a href="{{ url_for('history') }}">📊 My History</a> -->
+            <a href="{{ url_for('history') }}">📊 My History</a>
             <a href="#">⚙️ Settings</a>
             <a class="lo" onclick="logout()">→ Logout</a>
           </div>
