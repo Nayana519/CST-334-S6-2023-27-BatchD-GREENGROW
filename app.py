@@ -297,7 +297,7 @@ def login():
 @app.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for('landing'))
+    return redirect(url_for('home'))
 
 @app.route("/api/auth-status", methods=["GET"])
 def auth_status():
