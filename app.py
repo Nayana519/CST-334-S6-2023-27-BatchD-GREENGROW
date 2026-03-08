@@ -237,7 +237,7 @@ def calculate_fertilizer_quantity(fertilizer_name, def_n, def_p, def_k):
 # 4. ROUTES
 # -------------------------------
 @app.route("/")
-def landing():
+def home():
     return render_template("landing.html")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -379,7 +379,7 @@ def upload_avatar():
         print(f"Error uploading avatar: {e}")
         return redirect(url_for('profile'))
 
-@app.route("/predict_page")
+@app.route("/predict-page")
 @login_required
 def predict_page():
     return render_template("index.html")
