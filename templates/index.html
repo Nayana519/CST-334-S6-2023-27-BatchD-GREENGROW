@@ -484,16 +484,16 @@
             </div>
 
             <div class="field-group">
-              <label for="pH">Soil pH</label>
+              <label for="pH">Soil pH <span>(e.g. 6.75)</span></label>
               <input
                 type="number"
                 id="pH"
                 name="pH"
-                placeholder="e.g. 6.5"
-                min="0"
-                max="14"
-                step="0.1"
-                value="6.5"
+                placeholder="e.g. 6.75"
+                min="4.00"
+                max="9.00"
+                step="0.01"
+                value="6.50"
               />
             </div>
 
@@ -510,7 +510,7 @@
                   <option value="">Select soil type...</option>
                   <option value="Sandy">Sandy</option>
                   <option value="Loamy">Loamy</option>
-                  <option value="Clay">Clay</option>
+                  <option value="Clayey">Clayey</option>
                   <option value="Red">Red</option>
                   <option value="Black">Black</option>
                 </select>
@@ -519,13 +519,14 @@
                 <label for="Crop">Crop Type</label>
                 <select id="Crop" name="Crop" required>
                   <option value="">Select crop...</option>
-                  <option value="Rice">🌾 Rice</option>
                   <option value="Wheat">🌾 Wheat</option>
+                  <option value="Paddy">🌾 Paddy (Rice)</option>
                   <option value="Maize">🌽 Maize</option>
+                  <option value="Barley">🌾 Barley</option>
+                  <option value="Millets">🌾 Millets</option>
+                  <option value="Sugarcane">🎋 Sugarcane</option>
                   <option value="Cotton">🌱 Cotton</option>
                   <option value="Tobacco">🍃 Tobacco</option>
-                  <option value="Sugarcane">🎋 Sugarcane</option>
-                  <option value="Barley">🌾 Barley</option>
                   <option value="Oil seeds">🌻 Oil Seeds</option>
                   <option value="Pulses">🫘 Pulses</option>
                   <option value="Ground Nuts">🥜 Ground Nuts</option>

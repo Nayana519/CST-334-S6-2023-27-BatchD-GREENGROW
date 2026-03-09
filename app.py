@@ -80,6 +80,14 @@ def migrate_db():
             conn.commit()
             print("✅ Database migration: Added avatar_filename column")
 
+        # Add is_admin column if missing
+        c.execute("PRAGMA table_info(users)")
+        columns = [col[1] for col in c.fetchall()]
+        if 'is_admin' not in columns:
+            c.execute("ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0")
+            conn.commit()
+            print("✅ Database migration: Added is_admin column")
+
         # Check and add quantity_kg_per_ha column if missing
         c.execute("PRAGMA table_info(predictions)")
         pred_columns = [col[1] for col in c.fetchall()]
@@ -102,6 +110,19 @@ def login_required(f):
     def decorated_function(*args, **kwargs):
         if 'user_id' not in session:
             return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def admin_required(f):
+    """Decorator: allows access only if the logged-in user is an admin."""
+    @functools.wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            return redirect(url_for('login'))
+        user = get_user(session['user_id'])
+        if not user or not user.get('is_admin'):
+            return render_template('403.html'), 403
         return f(*args, **kwargs)
     return decorated_function
 
@@ -195,13 +216,13 @@ def get_weather(city):
 
 # Fertilizer NPK composition (% by weight)
 FERT_NPK_COMPOSITION = {
-    'Urea':     {'N': 46, 'P': 0,  'K': 0},
-    'DAP':      {'N': 18, 'P': 46, 'K': 0},
-    '14-35-14': {'N': 14, 'P': 35, 'K': 14},
-    '17-17-17': {'N': 17, 'P': 17, 'K': 17},
-    '20-20':    {'N': 20, 'P': 0,  'K': 20},
-    '28-28':    {'N': 28, 'P': 0,  'K': 28},
-    '10-26-26': {'N': 10, 'P': 26, 'K': 26},
+    'Urea (46% N)':            {'N': 46, 'P': 0,  'K': 0},
+    'DAP (18:46:0)':           {'N': 18, 'P': 46, 'K': 0},
+    'NPK Complex 14:35:14':    {'N': 14, 'P': 35, 'K': 14},
+    'Iffco NPK 17:17:17':      {'N': 17, 'P': 17, 'K': 17},
+    'Kribhco NPK 20:20:0':     {'N': 20, 'P': 0,  'K': 20},
+    'MAP 28:28:0':             {'N': 28, 'P': 0,  'K': 28},
+    'Tata Paras NPK 10:26:26': {'N': 10, 'P': 26, 'K': 26},
 }
 
 
@@ -291,46 +312,46 @@ def get_application_instructions(fertilizer_name, quantity, crop_name):
         Dictionary with application instructions
     """
     instructions = {
-        'Urea': {
+        'Urea (46% N)': {
             'timing': 'Apply in 2-3 split doses during vegetative growth stages',
             'method': 'Broadcast application or top dressing',
-            'precautions': 'Avoid applying during flowering. Apply when soil has adequate moisture.',
+            'precautions': 'Avoid applying during flowering. Apply when soil has adequate moisture. IFFCO/NFL Urea contains 46% Nitrogen.',
             'splits': f'Base dose: {int(quantity * 0.3)} kg/ha, First top dress: {int(quantity * 0.35)} kg/ha, Second top dress: {int(quantity * 0.35)} kg/ha'
         },
-        'DAP': {
+        'DAP (18:46:0)': {
             'timing': 'Apply as basal dose before sowing or transplanting',
             'method': 'Mix with soil during land preparation or apply in furrows',
-            'precautions': 'Ensure proper soil moisture. Place 5-7 cm deep near seed placement.',
+            'precautions': 'Di-Ammonium Phosphate. Ensure proper soil moisture. Place 5-7 cm deep near seed placement.',
             'splits': f'Single basal application: {quantity} kg/ha'
         },
-        '14-35-14': {
+        'NPK Complex 14:35:14': {
             'timing': 'Apply as basal dose with first split for top dressing',
             'method': 'Broadcast and incorporate into soil',
-            'precautions': 'Suitable for high phosphorus demand crops',
+            'precautions': 'Coromandel NPK Complex 14:35:14 — suitable for high phosphorus demand crops',
             'splits': f'Basal: {int(quantity * 0.6)} kg/ha, Top dress: {int(quantity * 0.4)} kg/ha'
         },
-        '17-17-17': {
+        'Iffco NPK 17:17:17': {
             'timing': 'Apply in 2 split doses - basal and top dressing',
             'method': 'Broadcast application with soil incorporation',
-            'precautions': 'Balanced fertilizer suitable for all growth stages',
+            'precautions': 'IFFCO balanced NPK 17:17:17 — suitable for all growth stages',
             'splits': f'Basal: {int(quantity * 0.5)} kg/ha, Top dress: {int(quantity * 0.5)} kg/ha'
         },
-        '20-20': {
+        'Kribhco NPK 20:20:0': {
             'timing': 'Apply during vegetative to reproductive stage',
             'method': 'Broadcast application',
-            'precautions': 'Good for nitrogen and potassium boost',
+            'precautions': 'Kribhco NPK 20:20:0 — provides nitrogen and phosphorus boost. No potassium.',
             'splits': f'Split into 2 doses: {int(quantity * 0.5)} kg/ha each'
         },
-        '28-28': {
+        'MAP 28:28:0': {
             'timing': 'Apply in split doses during active growth',
             'method': 'Broadcast or band application',
-            'precautions': 'High nutrient concentration - use with care',
+            'precautions': 'Mono Ammonium Phosphate — high nutrient concentration, use with care on alkaline soils',
             'splits': f'Split into 2-3 doses of approximately {int(quantity / 2.5)} kg/ha each'
         },
-        '10-26-26': {
-            'timing': 'Apply as basal dose, suitable for potassium-loving crops',
+        'Tata Paras NPK 10:26:26': {
+            'timing': 'Apply as basal dose, suitable for potassium and phosphorus-loving crops',
             'method': 'Broadcast and mix with soil',
-            'precautions': 'Excellent for fruit and tuber crops',
+            'precautions': 'Tata Paras NPK 10:26:26 — excellent for oilseed, pulse, and fruit crops',
             'splits': f'Basal application: {quantity} kg/ha'
         }
     }
@@ -525,10 +546,94 @@ def upload_avatar():
         return redirect(url_for('profile'))
 
 
+@app.route("/model-report")
+@admin_required
+def model_report():
+    import joblib, os
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
+    import pandas as pd, numpy as np
+
+    accuracy  = "N/A"
+    f1        = "N/A"
+    n_classes = "7"
+    test_samples = 0
+    errors    = 0
+
+    try:
+        _model   = joblib.load("models/model.pkl")
+        _le_fert = joblib.load("models/fertilizer_encoder.pkl")
+        _le_soil = joblib.load("models/soil_encoder.pkl")
+        _le_crop = joblib.load("models/crop_encoder.pkl")
+        _fc      = joblib.load("models/feature_cols.pkl")
+        _opt     = joblib.load("models/optimal_npk.pkl")
+
+        data = pd.read_csv("dataset.csv")
+
+        def _assign(row):
+            opt = _opt.get(row['Crop Type'], (20, 20, 20))
+            dn = max(0, opt[0] - row['Nitrogen'])
+            dp = max(0, opt[1] - row['Phosphorous'])
+            dk = max(0, opt[2] - row['Potassium'])
+            total = dn + dp + dk
+            if total == 0: return 'Iffco NPK 17:17:17'
+            pn, pp, pk = dn/total, dp/total, dk/total
+            if pn >= 0.55 and dn >= 8:                             return 'Urea (46% N)'
+            if pp >= 0.50 and dp >= 8 and dn >= 2:                 return 'DAP (18:46:0)'
+            if pn <= 0.22 and (pp+pk) >= 0.78 and (dp+dk) >= 10:  return 'Tata Paras NPK 10:26:26'
+            if pp >= 0.38 and pk >= 0.14 and pp > pn:              return 'NPK Complex 14:35:14'
+            if pn >= 0.35 and pk >= 0.28 and pp <= 0.25:           return 'Kribhco NPK 20:20:0'
+            if pn >= 0.28 and pp >= 0.25 and pk <= 0.30 and abs(pn-pp) <= 0.15: return 'MAP 28:28:0'
+            return 'Iffco NPK 17:17:17'
+
+        data['Fertilizer Name'] = data.apply(_assign, axis=1)
+        data['def_n'] = data.apply(lambda r: max(0, _opt.get(r['Crop Type'],(20,20,20))[0] - r['Nitrogen']),   axis=1)
+        data['def_p'] = data.apply(lambda r: max(0, _opt.get(r['Crop Type'],(20,20,20))[1] - r['Phosphorous']),axis=1)
+        data['def_k'] = data.apply(lambda r: max(0, _opt.get(r['Crop Type'],(20,20,20))[2] - r['Potassium']),  axis=1)
+        data['total_deficit'] = data['def_n'] + data['def_p'] + data['def_k']
+        data['pct_n'] = data['def_n'] / data['total_deficit'].replace(0, 1)
+        data['pct_p'] = data['def_p'] / data['total_deficit'].replace(0, 1)
+        data['pct_k'] = data['def_k'] / data['total_deficit'].replace(0, 1)
+        data['Soil Type']       = _le_soil.transform(data['Soil Type'])
+        data['Crop Type']       = _le_crop.transform(data['Crop Type'])
+        data['Fertilizer Name'] = _le_fert.transform(data['Fertilizer Name'])
+
+        X = data[_fc];  y = data['Fertilizer Name']
+        _, X_test, _, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+        y_pred = _model.predict(X_test)
+
+        acc_val  = accuracy_score(y_test, y_pred)
+        f1_val   = f1_score(y_test, y_pred, average='weighted')
+        cm       = confusion_matrix(y_test, y_pred)
+        accuracy = f"{acc_val*100:.2f}%"
+        f1       = f"{f1_val:.4f}"
+        n_classes = str(len(_le_fert.classes_))
+        test_samples = len(y_test)
+        errors   = int(cm.sum() - cm.trace())
+    except Exception as e:
+        print(f"[model_report] stats error: {e}")
+
+    static_dir = os.path.join(os.getcwd(), 'static')
+    cm_exists      = os.path.exists(os.path.join(static_dir, 'confusion_matrix.png'))
+    metrics_exists = os.path.exists(os.path.join(static_dir, 'metrics_chart.png'))
+
+    return render_template(
+        "model_report.html",
+        accuracy=accuracy,
+        f1_score=f1,
+        n_classes=n_classes,
+        test_samples=test_samples,
+        errors=errors,
+        cm_exists=cm_exists,
+        metrics_exists=metrics_exists,
+    )
+
+
 @app.route("/predict-page")
 @login_required
 def predict_page():
     return render_template("index.html")
+
 
 
 @app.route("/history")
@@ -611,12 +716,19 @@ def predict():
         def_k         = max(0, opt[2] - K)
         total_deficit = def_n + def_p + def_k
 
-        # Build 13-feature vector — must match FEATURE_COLS order in train_model.py
+        # Relative deficit fractions (match training FEATURE_COLS)
+        _denom = total_deficit if total_deficit > 0 else 1
+        pct_n  = def_n / _denom
+        pct_p  = def_p / _denom
+        pct_k  = def_k / _denom
+
+        # Build 16-feature vector — must match FEATURE_COLS order in train_model.py
         features = np.array([[
             temp, humidity, moisture,
             soil_encoded, crop_encoded,
             N, K, P, pH,
-            def_n, def_p, def_k, total_deficit
+            def_n, def_p, def_k, total_deficit,
+            pct_n, pct_p, pct_k
         ]])
 
         prediction = model.predict(features)
