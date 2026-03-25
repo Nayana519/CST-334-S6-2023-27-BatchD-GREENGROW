@@ -159,7 +159,7 @@ model = RandomForestClassifier(
     class_weight='balanced'
 )
 
-model.fit(X_train, y_train)
+model.fit(X_train, y_train)  #Training happens here
 
 # ── 9. Evaluate ───────────────────────────────────────────────────────────────
 y_pred   = model.predict(X_test)
